@@ -58,3 +58,5 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# To big files for GitHub
+/Assets/Imports/Photon/PhotonVoice/PhotonVoiceLibs/iOS
