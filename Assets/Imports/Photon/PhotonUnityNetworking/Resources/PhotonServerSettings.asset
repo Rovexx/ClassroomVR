@@ -15,7 +15,7 @@ MonoBehaviour:
   AppSettings:
     AppIdRealtime: 523982cb-9eb5-4829-91c7-ada7a6c27844
     AppIdChat: 
-    AppIdVoice: 
+    AppIdVoice: 1892b1b2-4d72-45c7-9def-cd536e613107
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -37,6 +37,8 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - ChangeColour
+  - MyRemoteMethod
+  - MuteRecorder
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

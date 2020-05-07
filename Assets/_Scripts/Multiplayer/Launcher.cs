@@ -53,7 +53,7 @@ namespace Com.Roel.ClassroomVR
         {
             progressLabel.SetActive(false);
             controlPanel.SetActive(true);
-            // Connect(); // TEMPORARY REMOVE AFTER TESTING
+            Connect(); // TEMPORARY REMOVE AFTER TESTING
         }
         #endregion
 

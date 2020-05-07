@@ -28,7 +28,7 @@ namespace Com.Roel.ClassroomVR
         }
 
         public void AttachCamera() {
-            Debug.Log("Attaching camera");
+            // Debug.Log("Attaching camera");
             _cameraTransform = Camera.main.transform;
             Transform _head = PlayerManager.LocalPlayerInstance.transform.Find("Head");
             if (_head != null) {

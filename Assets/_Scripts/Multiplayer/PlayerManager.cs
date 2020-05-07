@@ -18,13 +18,12 @@ namespace Com.Roel.ClassroomVR
             // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
             if (photonView.IsMine)
             {
-                Debug.Log("This is my player");
+                // Debug.Log("This is my player");
                 PlayerManager.LocalPlayerInstance = this.gameObject;
+
             } else {
-                Debug.Log("Networked Synced player");
+                // Debug.Log("Networked Synced player");
             }
-            // #Critical
-            // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
             DontDestroyOnLoad(this.gameObject);
         }
 
@@ -76,7 +75,7 @@ namespace Com.Roel.ClassroomVR
                     // ENABLE WHEN CAMERA IS ATTACHED TO PLAYER
                     _cameraWork.AttachCamera();
                 } else {
-                    PlayerManager.LocalPlayerInstance.GetComponent<CameraWork>().AttachCamera();
+                    PlayerManager.LocalPlayerInstance.GetComponent<CameraWork>().AttachCamera(); //<- should not be neccesairy why connect the camera if this is networked player from someone else
                     // TODO this feels dirty
                 }
             }

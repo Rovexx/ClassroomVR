@@ -41,6 +41,13 @@ namespace Com.Roel.ClassroomVR
         #region Private Methods
         void Start()
         {
+            // in case we started this with the wrong scene being active, simply load the menu scene
+            if (!PhotonNetwork.IsConnected)
+            {
+                Debug.Log("Wrong scene loaded, Returning to Launcher");
+                SceneManager.LoadScene("Launcher");
+                return;
+            }
             Instance = this;
 
             if (playerPrefab == null){
@@ -52,13 +59,13 @@ namespace Com.Roel.ClassroomVR
                         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                         PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f,0f,8f), Quaternion.identity, 0);
                         PlayerManager.LocalPlayerInstance.gameObject.tag = "Teacher";
+                        // Debug.Log(PlayerManager.LocalPlayerInstance.GetPhotonView().ViewID);
                     } else {
                         Debug.LogFormat("I am a student");
                         // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                         PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f,0f,-0.7f), Quaternion.identity, 0);
                         PlayerManager.LocalPlayerInstance.gameObject.tag = "Student";
                     }
-                    
                     // TODO
                     // Set character position random
                     // TODO
@@ -72,9 +79,10 @@ namespace Com.Roel.ClassroomVR
         void LoadRoom()
         {
             // Load a bigger class if neccesairy
-            if (PhotonNetwork.CurrentRoom.PlayerCount > 2) {
+            if (PhotonNetwork.CurrentRoom.PlayerCount > 5) {
                 Debug.Log("PhotonNetwork : Loading Level : Class 2");
                 PhotonNetwork.LoadLevel("Class 2");
+                // TODO change voice channel for these so they dont talk to class 1
             } else {
                 Debug.Log("PhotonNetwork : Loading Level : Class 1");
                 PhotonNetwork.LoadLevel("Class 1");
@@ -104,5 +112,21 @@ namespace Com.Roel.ClassroomVR
             }
         }
         #endregion
+
+        /// <summary>
+        /// MonoBehaviour method called on GameObject by Unity on every frame.
+        /// </summary>
+        void Update()
+        {
+            // "back" button of phone equals "Escape". quit app if that's pressed
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                QuitApplication();
+            }
+        }
+        public void QuitApplication()
+        {
+            Application.Quit();
+        }
     }
 }

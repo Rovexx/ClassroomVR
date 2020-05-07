@@ -42,7 +42,6 @@ namespace Com.Roel.ClassroomVR
                 }
             }
 
-
             PhotonNetwork.NickName =  defaultName;
         }
 
