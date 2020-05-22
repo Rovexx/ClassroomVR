@@ -13,8 +13,7 @@ GameObject:
   - component: {fileID: 627328811578385217}
   - component: {fileID: 5655449100447759326}
   - component: {fileID: 3622904084878130998}
-  - component: {fileID: 6173550287439472999}
-  - component: {fileID: 449202592456064478}
+  - component: {fileID: 8149246076887422310}
   m_Layer: 0
   m_Name: Chair
   m_TagString: Teleport
@@ -108,8 +107,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98bb8493365ecb043b2ea39d9323d9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2514862395243705158, guid: f64d391d20943ac4ebed5e54c1efd53a, type: 3}
---- !u!114 &6173550287439472999
+  teleportPositionOffsetX: 0
+  teleportPositionOffsetY: 0
+  teleportPositionOffsetZ: 0
+  teleportRotationX: 0
+  teleportRotationY: 0
+  teleportRotationZ: 0
+--- !u!114 &8149246076887422310
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,66 +122,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1191323280970962845}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 41d7fc3f78d1bae45870cd6c98efe7d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 449202592456064478}
-          m_MethodName: GvrOn
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 449202592456064478}
-          m_MethodName: GvrOff
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &449202592456064478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191323280970962845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc98e5f8f12ef5b4483f70e8e63f3c6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imgGaze: {fileID: 0}
-  GVRClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3622904084878130998}
-        m_MethodName: TeleportPlayer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  totalTime: 2
-  gvrTimer: 0
+  requiredPermission: Student

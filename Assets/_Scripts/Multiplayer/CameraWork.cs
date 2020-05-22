@@ -12,6 +12,8 @@ namespace Com.Roel.ClassroomVR
         // cached transform of the target
         private Transform _cameraTransform;
         private Transform _characterTransform;
+        private Transform _characterShouldersTransform;
+        private Transform _characterHeadTransform;
         private Canvas _canvasWorld;
         private Canvas _canvasScreen;
         // Should the camera sync movement to the character
@@ -30,13 +32,14 @@ namespace Com.Roel.ClassroomVR
         public void AttachCamera() {
             // Debug.Log("Attaching camera");
             _cameraTransform = Camera.main.transform;
-            Transform _head = PlayerManager.LocalPlayerInstance.transform.Find("Head");
-            if (_head != null) {
-                _cameraTransform.SetParent(_head);
+            Transform _shoulders = PlayerManager.LocalPlayerInstance.transform.Find("Shoulders");
+            if (_shoulders != null) {
+                _cameraTransform.SetParent(_shoulders);
                 // Now reattach the camera to the canvasses
     	        AttachCameraToCanvasses();
+                locateGameObjectsForTransforms();
             } else {
-                Debug.Log("Could not find head GameComponent to attach camera to");
+                Debug.Log("Could not find shoulder GameComponent to attach camera to");
             }
         }
 
@@ -66,28 +69,31 @@ namespace Com.Roel.ClassroomVR
             }
         }
 
-        public void SyncCameraPosition() {
+        private void locateGameObjectsForTransforms(){
             _cameraTransform = Camera.main.transform;
             _characterTransform = PlayerManager.LocalPlayerInstance.transform;
+            _characterShouldersTransform = _characterTransform.Find("Shoulders");
+            _characterHeadTransform = _characterShouldersTransform.Find("Head");
+        }
 
+        public void SyncCameraPosition() {
             // Move camera to player
             Vector3 _moveTo = new Vector3(
-                _characterTransform.localPosition.x,
-                _characterTransform.localPosition.y + 1.5f,
-                _characterTransform.localPosition.z
+                _characterShouldersTransform.position.x,
+                _characterShouldersTransform.position.y,
+                _characterShouldersTransform.position.z
             );
-
-            // Debug.Log("Moving to" + _moveTo);
-            // Debug.Log("Move from" + _cameraTransform.localPosition);
-            _cameraTransform.position = _moveTo;
-
             // Sync player head rotation with camera
             Vector3 _rotateTo = new Vector3(
-                _cameraTransform.localEulerAngles.x*1,
-                _cameraTransform.localEulerAngles.y*1,
-                _cameraTransform.localEulerAngles.z*1
+                _cameraTransform.localEulerAngles.x,
+                _cameraTransform.localEulerAngles.y,
+                _cameraTransform.localEulerAngles.z
             );
-            // _characterTransform.Find("Head").localEulerAngles = _rotateTo;
+
+            _cameraTransform.position = _moveTo;           
+            _characterHeadTransform.localEulerAngles = _rotateTo;
+            // Debug.Log("Moving to" + _moveTo);
+            // Debug.Log("Move from" + _cameraTransform.position);
         }
     }
 }

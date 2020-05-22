@@ -16,7 +16,7 @@ namespace Com.Roel.ClassroomVR
         #region Private Serializable Fields
         [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
         [SerializeField]
-        private byte maxPlayersPerRoom = 20;
+        private byte maxPlayersPerRoom = 5;
         #endregion
 
 
@@ -53,7 +53,7 @@ namespace Com.Roel.ClassroomVR
         {
             progressLabel.SetActive(false);
             controlPanel.SetActive(true);
-            Connect(); // TEMPORARY REMOVE AFTER TESTING
+            // Connect(); // TEMPORARY REMOVE AFTER TESTING
         }
         #endregion
 
@@ -70,11 +70,14 @@ namespace Com.Roel.ClassroomVR
             controlPanel.SetActive(false);
             // keep track of the will to join a room, because when we come back from the game we will get a callback that we are connected, so we need to know what to do then
             isConnecting = PhotonNetwork.ConnectUsingSettings();
-            // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
             if (PhotonNetwork.IsConnected)
             {
                 // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
                 PhotonNetwork.JoinRandomRoom();
+                
+                // RoomOptions roomOptions = new RoomOptions();
+                // roomOptions.IsVisible = false;
+                // PhotonNetwork.JoinOrCreateRoom("defaultClass", roomOptions, TypedLobby.Default);
             }
             else
             {

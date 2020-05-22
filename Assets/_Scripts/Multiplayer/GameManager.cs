@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-
+using UnityEngine.UI;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,29 +14,23 @@ namespace Com.Roel.ClassroomVR
 {
     public class GameManager : MonoBehaviourPunCallbacks
     {
-        #region Public Fields*
         public static GameManager Instance;
         [Tooltip("The prefab to use for representing the player")]
-        public GameObject playerPrefab;
+        public GameObject playerPrefabStudent;
+        public GameObject playerPrefabTeacher;
 
-        #endregion
-
-        #region Photon Callbacks
         /// <summary>
         /// Called when the local player left the room. We need to load the launcher scene.
         /// </summary>
         public override void OnLeftRoom()
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("Launcher");
         }
-        #endregion
 
-        #region Public Methods
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
         }
-        #endregion
 
         #region Private Methods
         void Start()
@@ -44,32 +38,29 @@ namespace Com.Roel.ClassroomVR
             // in case we started this with the wrong scene being active, simply load the menu scene
             if (!PhotonNetwork.IsConnected)
             {
-                Debug.Log("Wrong scene loaded, Returning to Launcher");
+                Debug.Log("LOGGING: Wrong scene loaded, Returning to Launcher");
                 SceneManager.LoadScene("Launcher");
                 return;
             }
             Instance = this;
 
-            if (playerPrefab == null){
+            if (playerPrefabStudent == null || playerPrefabTeacher == null){
                 Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'",this);
             } else {
                 if (PlayerManager.LocalPlayerInstance == null){
+                    // we're in a room. spawn a character for the local player.
                     if (PhotonNetwork.IsMasterClient) {
-                        Debug.Log("I am the teacher");
-                        // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f,0f,8f), Quaternion.identity, 0);
-                        PlayerManager.LocalPlayerInstance.gameObject.tag = "Teacher";
-                        // Debug.Log(PlayerManager.LocalPlayerInstance.GetPhotonView().ViewID);
+                        Debug.Log("LOGGING: I am the teacher");
+                        PhotonNetwork.Instantiate(this.playerPrefabTeacher.name, new Vector3(4f,0f,8f), Quaternion.identity, 0);
                     } else {
-                        Debug.LogFormat("I am a student");
-                        // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                        PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f,0f,-0.7f), Quaternion.identity, 0);
-                        PlayerManager.LocalPlayerInstance.gameObject.tag = "Student";
+                        Debug.LogFormat("LOGGING: I am a student");
+                        PhotonNetwork.Instantiate(this.playerPrefabStudent.name, new Vector3(0f,0f,-0.7f), Quaternion.identity, 0);
                     }
+
                     // TODO
                     // Set character position random
-                    // TODO
-                    // Change master client (teacher) avatar
+                    // Make array of vector3s with predefined spawn points
+                    // replace new vector in instantiate with spawnpoints[random index]
                 } else {
                     Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
                 }
@@ -80,11 +71,11 @@ namespace Com.Roel.ClassroomVR
         {
             // Load a bigger class if neccesairy
             if (PhotonNetwork.CurrentRoom.PlayerCount > 5) {
-                Debug.Log("PhotonNetwork : Loading Level : Class 2");
+                Debug.Log("LOGGING: PhotonNetwork : Loading Level : Class 2");
                 PhotonNetwork.LoadLevel("Class 2");
                 // TODO change voice channel for these so they dont talk to class 1
             } else {
-                Debug.Log("PhotonNetwork : Loading Level : Class 1");
+                Debug.Log("LOGGING: PhotonNetwork : Loading Level : Class 1");
                 PhotonNetwork.LoadLevel("Class 1");
             }
         }
@@ -93,21 +84,21 @@ namespace Com.Roel.ClassroomVR
         #region Photon Callbacks
         public override void OnPlayerEnteredRoom(Player other)
         {
-            Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
+            Debug.LogFormat("LOGGING: OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
 
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+                Debug.LogFormat("LOGGING: OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
                 LoadRoom();
             }
         }
 
         public override void OnPlayerLeftRoom(Player other)
         {
-            Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
+            Debug.LogFormat("LOGGING: OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+                Debug.LogFormat("LOGGING: OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
                 LoadRoom();
             }
         }

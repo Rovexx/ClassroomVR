@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using Photon.Pun;
 using System.Collections;
+using UnityEngine.UI;
 
 namespace Com.Roel.ClassroomVR
 {
@@ -18,11 +19,7 @@ namespace Com.Roel.ClassroomVR
             // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
             if (photonView.IsMine)
             {
-                // Debug.Log("This is my player");
                 PlayerManager.LocalPlayerInstance = this.gameObject;
-
-            } else {
-                // Debug.Log("Networked Synced player");
             }
             DontDestroyOnLoad(this.gameObject);
         }
@@ -68,20 +65,13 @@ namespace Com.Roel.ClassroomVR
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
             #endif
             CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
-            if (_cameraWork != null)
+            if (photonView.IsMine)
             {
-                if (photonView.IsMine)
-                {
-                    // ENABLE WHEN CAMERA IS ATTACHED TO PLAYER
-                    _cameraWork.AttachCamera();
-                } else {
-                    PlayerManager.LocalPlayerInstance.GetComponent<CameraWork>().AttachCamera(); //<- should not be neccesairy why connect the camera if this is networked player from someone else
-                    // TODO this feels dirty
-                }
-            }
-            else
-            {
-                Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
+                // ENABLE WHEN CAMERA IS ATTACHED TO PLAYER
+                _cameraWork.AttachCamera();
+
+                // Add player name to their avatar
+                PlayerManager.LocalPlayerInstance.gameObject.GetComponentInChildren<Text>().text = PhotonNetwork.NickName;
             }
         }
 

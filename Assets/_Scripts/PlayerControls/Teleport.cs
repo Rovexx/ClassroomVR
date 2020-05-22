@@ -20,7 +20,7 @@ namespace Com.Roel.ClassroomVR
         public float teleportRotationZ;
 
         public void TeleportPlayer() {
-            Debug.Log("Telleport player");
+            Debug.Log("Teleport");
             Vector3 teleportLocation = new Vector3(
                 transform.position.x + teleportPositionOffsetX, 
                 transform.position.y + teleportPositionOffsetY, 

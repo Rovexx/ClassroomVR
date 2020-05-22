@@ -10,6 +10,8 @@ TagManager:
   - Schoolboard
   - Teacher
   - Student
+  - GazeButton
+  - PlayerName
   layers:
   - Default
   - TransparentFX
